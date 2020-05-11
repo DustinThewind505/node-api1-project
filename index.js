@@ -42,10 +42,24 @@ server.post('/api/users', (req, res) => {
 
 })
 
-server.get('/api/users', (req, res) => {
+server.get('/api/hikers', (req, res) => {
     res.status(200).json(hikers)
 })
 
+server.delete('/api/hikers/:id', (req, res) => {
+    const { id } = req.params;
+
+    const found = hikers.find(hiker => hiker.id ===id);
+
+    if(found) {
+        hikers = hikers.filter(hiker => hiker.id !== id);
+        res.status(200).json(found)
+    } else {
+        res.status(404).json({"Message": "The user with the specified ID does not exist."})
+    } 
+
+    res.status(200).json({"Ello": "Poppet"})
+})
 
 
 

@@ -20,6 +20,9 @@ let hikers = [
 
 server.use(express.json());
 
+//=======================================================================================
+//CREATE
+//=======================================================================================
 server.post('/api/users', (req, res) => {
     const newHiker = req.body;
     const { name, bio } = req.body;
@@ -33,19 +36,53 @@ server.post('/api/users', (req, res) => {
     } else {
         res.status(500).json({ errorMessage: "There was an error while saving the user to the database" })
     }
-
-
-    // const newUser = req.body;
-    // newUser.id = shortid.generate();
-    // hikers.push(newUser);
-    // res.status(201).json(newUser);
-
 })
 
+//=======================================================================================
+//READ
+//=======================================================================================
 server.get('/api/hikers', (req, res) => {
     res.status(200).json(hikers)
 })
 
+//=======================================================================================
+//UPDATE - PATCH
+//=======================================================================================
+server.patch('/api/hikers/:id', (req, res) => {
+    const { id } = req.params;
+    const changes = req.body;
+
+    let found = hikers.find(hiker => hiker.id === id);
+
+    if(found) {
+        Object.assign(found, changes);
+        res.status(200).json(found);
+    } else {
+        res.status(404).json({"message": "hiker not found"})
+    }
+})
+
+//=======================================================================================
+//UPDATE - PUT
+//=======================================================================================
+server.put('/api/hikers/:id', (req,res) => {
+    const { id } = req.params;
+    const changes = req.body;
+
+    let index = hikers.findIndex(hiker => hiker.id === id);
+
+    if(index !== -1) {
+        changes.id = shortid.generate();
+        hikers[index] = changes;
+        res.status(200).json(hikers[index]);
+    } else {
+        res.status(404).json({"messge": "hiker not found"});
+    }
+})
+
+//=======================================================================================
+//DELETE
+//=======================================================================================
 server.delete('/api/hikers/:id', (req, res) => {
     const { id } = req.params;
 

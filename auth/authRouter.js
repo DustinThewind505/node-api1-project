@@ -11,7 +11,7 @@ const bcrypt = require('bcryptjs')
 router.post('/register', (req, res) => {
     const credentials = req.body;
 
-    const hash = bcrypt.hashSync(credentials.password, 14)
+    const hash = bcrypt.hashSync(credentials.password, 10)
 
     credentials.password = hash;
 

@@ -18,30 +18,30 @@ server.use(helmet())
 server.use(cors())
 
 server.use(
-    session({
-      name: 'notsession', // default is connect.sid
-      secret: 'nobody tosses a dwarf!',
-      cookie: {
-        maxAge: 1 * 24 * 60 * 60 * 1000,
-        secure: false, 
-      },
-      httpOnly: true, 
-      resave: false,
-      saveUninitialized: false,
-      store: new knexSessionStore(
-          {
-              knex: require('../data/dbConfig'),
-              tablename: "sessions",
-              sidfieldname: "sid",
-              createtable: true,
-              clearInterval: 3600 * 1000
-          }
-      )
-    })
-  );
+  session({
+    name: 'notsession', // default is connect.sid
+    secret: 'nobody tosses a dwarf!',
+    cookie: {
+      maxAge: 1 * 24 * 60 * 60 * 1000,
+      secure: false,
+    },
+    httpOnly: true,
+    resave: false,
+    saveUninitialized: false,
+    store: new knexSessionStore(
+      {
+        knex: require('../data/dbConfig'),
+        tablename: "sessions",
+        sidfieldname: "sid",
+        createtable: true,
+        clearInterval: 3600 * 1000
+      }
+    )
+  })
+);
 
 server.use('/api', AuthRouter)
-server.use('/api/users', protected ,UsersRouter)
+server.use('/api/users', protected, UsersRouter)
 
 // =========== 404 fallback ===========
 server.use('/', (req, res) => {

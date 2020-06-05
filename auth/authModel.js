@@ -15,7 +15,7 @@ function addUser(user) {
 }
 
 // =========== GET user by username ===========
-function findUsername(username) {   
+function findUsername(username) {
     return db('users').where({ username: username })
 }
 

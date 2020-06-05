@@ -1,11 +1,8 @@
 const express = require('express')
-//const bcrypt = require('bcryptjs') 
 
 const Users = require('./usersModel')
 
 const router = express.Router();
-
-
 
 
 // =========== GET users ===========

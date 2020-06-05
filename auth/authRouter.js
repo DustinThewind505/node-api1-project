@@ -4,9 +4,9 @@ const Users = require('./authModel')
 
 const router = express.Router();
 
-const bcrypt = require('bcryptjs') 
+const bcrypt = require('bcryptjs')
 
-//REGISTER
+// =========== POST register user ===========
 
 router.post('/register', (req, res) => {
     const credentials = req.body;
@@ -25,12 +25,12 @@ router.post('/register', (req, res) => {
 })
 
 
-//LOGIN
+// =========== POST login user ===========
 router.post('/login', (req, res) => {
     const { username } = req.body;
     Users.findUsername(username)
         .then(user => {
-            if(user[0] && bcrypt.compareSync(req.body.password, user[0].password)) {
+            if (user[0] && bcrypt.compareSync(req.body.password, user[0].password)) {
                 req.session.username = user[0].username
                 res.status(200).json({ message: `Welcome ${user[0].username}!` })
             } else {
@@ -38,16 +38,16 @@ router.post('/login', (req, res) => {
             }
         })
         .catch(error => {
-            res.status(500).json({message: "error", error})
+            res.status(500).json({ message: "error", error })
         })
 })
 
-//LOGOUT
+// =========== GET logout user ===========
 
 router.get('/logout', (req, res) => {
-    if(req.session) {
+    if (req.session) {
         req.session.destroy(err => {
-            if(err) {
+            if (err) {
                 res.send('error logging out')
             } else {
                 res.send('good bye')

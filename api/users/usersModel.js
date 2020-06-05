@@ -20,7 +20,7 @@ function addUser(user) {
 }
 
 // =========== GET user by name ===========
-function findUsername(username) {   
+function findUsername(username) {
     return db('users').where({ username: username })
 }
 
